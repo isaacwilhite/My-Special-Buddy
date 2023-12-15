@@ -61,6 +61,23 @@ class Volunteer(db.Model, SerializerMixin):
 
     def authenticate(self, password):
         return bcrypt.check_password_hash(self._password_hash, password)
+    
+class ChatRoom(db.Model, SerializerMixin):
+    __tablename__ = 'chatrooms'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    volunteer_id = db.Column(db.Integer, db.ForeignKey('volunteers.id'), nullable=False)
+    messages = db.relationship('Message', backref='chatroom', lazy=True)
+
+    user = db.relationship("User", backref="chatrooms")
+    volunteer = db.relationship("Volunteer", backref="chatrooms")
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "volunteer_id": self.volunteer_id,
+        }
 
 class Message(db.Model, SerializerMixin):
     __tablename__ = 'messages'
@@ -70,6 +87,7 @@ class Message(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     volunteer_id = db.Column(db.Integer, db.ForeignKey('volunteers.id'), nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    chatroom_id = db.Column(db.Integer, db.ForeignKey('chatrooms.id'), nullable=False)
 
     user = db.relationship("User", back_populates="messages")
     volunteer = db.relationship("Volunteer", back_populates="messages")
