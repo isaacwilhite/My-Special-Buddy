@@ -18,6 +18,7 @@ class User(db.Model, SerializerMixin):
     bio = db.Column(db.String)
     location = db.Column(db.String)
     favorite_activities = db.Column(db.String, nullable=True)
+    child_name = db.Column(db.String)
     created_at = db.Column(db.DateTime, server_default=func.now())
     messages = db.relationship('Message', back_populates='user', lazy=True)
 
@@ -49,6 +50,13 @@ class Volunteer(db.Model, SerializerMixin):
     messages = db.relationship('Message', back_populates='volunteer', lazy=True)
 
     serialize_rules = ("-messages.volunteer",)
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "bio": self.bio,
+            "location": self.location,
+        }
 
     @hybrid_property
     def password_hash(self):
@@ -73,9 +81,14 @@ class ChatRoom(db.Model, SerializerMixin):
     user = db.relationship("User", backref="chatrooms")
     volunteer = db.relationship("Volunteer", backref="chatrooms")
     def to_dict(self):
+        if self.user_id == user_id:  # If the logged-in user is the user of the chat room
+            other_party_name = self.volunteer.name
+        else:
+            other_party_name = self.user.name
         return {
             "id": self.id,
             "user_id": self.user_id,
+            "other_party_name": other_party_name,
             "volunteer_id": self.volunteer_id,
         }
 
@@ -86,6 +99,7 @@ class Message(db.Model, SerializerMixin):
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     volunteer_id = db.Column(db.Integer, db.ForeignKey('volunteers.id'), nullable=False)
+    sender_type = db.Column(db.String)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     chatroom_id = db.Column(db.Integer, db.ForeignKey('chatrooms.id'), nullable=False)
 

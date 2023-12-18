@@ -63,22 +63,24 @@ class CreateUser(Resource):
     def post(self):
         try:
             new_data = request.get_json()
-            new_item = User(
-                email=new_data['email'],
-                location='',
-                bio='',
+            new_user = User(
+                email=new_data.get('email'),
+                name=new_data.get('name'),
+                child_name=new_data.get('child_name'),
+                bio=new_data.get('bio'),
+                location=new_data.get('location'),
+                favorite_activities=new_data.get('favorite_activities')
             )
-            new_item.set_password(new_data['password'])
-            db.session.add(new_item)
+            new_user.set_password(new_data.get('password'))
+            db.session.add(new_user)
             db.session.commit()
-            # session[USER_SESSION_KEY] = new_item.id
-            # return make_response(new_item.to_dict(rules=('-password_hash',)), 201)
-            jwt = create_access_token(identity=new_item.id)
-            serialized_user = new_item.to_dict(rules=('-_password_hash',))
+
+            jwt = create_access_token(identity=new_user.id)
+            serialized_user = new_user.to_dict(rules=('-_password_hash',))
             return {"token": jwt, "user": serialized_user}, 201
         except Exception as e:
             db.session.rollback()
-            return make_response({'Error': f'Could not create new user. {str(e)}'}, 400)
+            return make_response({'Error': f'Could not create new user: {str(e)}'}, 400)
 
 class LoginUser(Resource):
     def post(self):
@@ -99,7 +101,13 @@ class LoginUser(Resource):
             jwt = create_access_token(identity=selected.id)
             serialized_user = {
                 'id': selected.id,
-                'email': selected.email
+                'email': selected.email,
+                'name': selected.name,
+                'location': selected.location,
+                'bio': selected.bio,
+                'favorite_activities': selected.favorite_activities,
+                'child_name': selected.child_name
+
             }
             return {"token": jwt, "user": serialized_user}, 200
 
@@ -166,13 +174,27 @@ class UsersById(Resource):
         return make_response({"Error": "User does not exist."}, 404)
     
 class Volunteers(Resource):
+    @jwt_required()
     def get(self):
         try:
-            volunteers = Volunteer.query.limit(10).all()  # Limiting the number of results
-            volunteers_data = [{'id': v.id, 'name': v.name} for v in volunteers]  # Simple serialization
-            return jsonify(volunteers_data)
+            user_id = get_jwt_identity()
+            user = User.query.get(user_id)
+
+            if not user:
+                return {'Error': 'User not found'}, 404
+
+            volunteers = Volunteer.query.filter_by(location=user.location).all()
+
+            # Debugging print statement
+            volunteers_dict = [v.to_dict() for v in volunteers]
+            print("Volunteers dict:", volunteers_dict)
+
+            return jsonify(volunteers_dict)
         except Exception as e:
-            return make_response({'Error': f'Could not fetch volunteer data: {str(e)}'}, 400)
+            # Print full traceback for detailed error information
+            import traceback
+            traceback.print_exc()
+            return {'Error': f'Could not fetch volunteer data: {str(e)}'}, 400
 
     def post(self):
         try:
@@ -211,7 +233,9 @@ class LoginVolunteer(Resource):
             jwt = create_access_token(identity=selected.id)
             serialized_volunteer = {
                 'id': selected.id,
-                'email': selected.email
+                'email': selected.email,
+                'bio': selected.bio,
+                'location': selected.location
             }
             return {"token": jwt, "volunteer": serialized_volunteer}, 200
 
@@ -261,16 +285,39 @@ class CreateChatRoom(Resource):
 class ChatRoomsByUserId(Resource):
     @jwt_required()
     def get(self):
-        return {"message": "Endpoint reached successfully"}
-        # user_id = get_jwt_identity()
+        user_id = get_jwt_identity()
+        chat_rooms = db.session.query(
+            ChatRoom.id,
+            ChatRoom.volunteer_id,
+            Volunteer.name.label('volunteer_name')
+        ).join(Volunteer, ChatRoom.volunteer_id == Volunteer.id) \
+          .filter((ChatRoom.user_id == user_id) | (ChatRoom.volunteer_id == user_id)) \
+          .all()
 
-        # # Fetch chat rooms where the user is either a user or a volunteer
-        # chat_rooms = ChatRoom.query.filter((ChatRoom.user_id == user_id) | (ChatRoom.volunteer_id == user_id)).all()
+        chat_rooms_data = [
+            {'id': cr.id, 'user_id': cr.volunteer_id, 'user_name': cr.volunteer_name}
+            for cr in chat_rooms
+        ]
+        print(chat_rooms_data)
+        return chat_rooms_data
+class ChatRoomsByVolunteerId(Resource):
+    @jwt_required()
+    def get(self):
+        volunteer_id = get_jwt_identity()
+        chat_rooms = db.session.query(
+            ChatRoom.id,
+            ChatRoom.user_id,
+            User.name.label('user_name')
+        ).join(User, ChatRoom.user_id == User.id) \
+          .filter((ChatRoom.volunteer_id == volunteer_id) | (ChatRoom.user_id == volunteer_id)) \
+          .all()
+
+        chat_rooms_data = [
+            {'id': cr.id, 'user_id': cr.user_id, 'user_name': cr.user_name}
+            for cr in chat_rooms
+        ]
         
-        # # Serialize the chat room data
-        # chat_rooms_data = [chat_room.to_dict() for chat_room in chat_rooms]
-        
-        # return chat_rooms_data
+        return chat_rooms_data
     
 class MessagesByChatRoomId(Resource):
     @jwt_required()
@@ -285,16 +332,19 @@ class MessagesByChatRoomId(Resource):
         # Fetch messages for the chat room
         messages = Message.query.filter_by(chatroom_id=chat_room_id).all()
 
-        # Serialize the message data
+        # Prepare the response
         messages_data = [
-            {'id': message.id, 'content': message.content}
-            for message in messages
+            {
+                'id': message.id,
+                'content': message.content,
+                'user_id': message.user_id,
+                'volunteer_id': message.volunteer_id,
+                'sender_type': message.sender_type
+            } for message in messages
         ]
-
         return messages_data
     
 api.add_resource(MessagesByChatRoomId, '/chat_rooms/<int:chat_room_id>/messages')
-api.add_resource(ChatRoomsByUserId, '/user_chat_rooms')
 api.add_resource(CreateChatRoom, '/create_chat_room')
 api.add_resource(LoginUser, '/login/user')
 api.add_resource(CreateUser, '/signup/user')
@@ -305,6 +355,8 @@ api.add_resource(CreateVolunteer, '/signup/volunteer')
 api.add_resource(LogoutVolunteer, '/logout/volunteer')
 api.add_resource(Volunteers, '/volunteers')
 api.add_resource(VolunteersById, '/volunteers/<int:id>')
+api.add_resource(ChatRoomsByUserId, '/user_rooms')
+api.add_resource(ChatRoomsByVolunteerId, '/volunteer_rooms')
 
 @app.route('/')
 def index():
@@ -327,19 +379,20 @@ def handle_send_message(data):
     #     return
     chat_room_id = data['chat_room_id']
     message_content = data['message']
+    sender_type = data['sender_type']
     volunteer_id = data.get('volunteer_id')
 
     chat_room = ChatRoom.query.get(chat_room_id)
     if chat_room:
         # Save message to the database
-        new_message = Message(content=message_content, user_id=user_id, volunteer_id=volunteer_id, chatroom_id=chat_room_id, timestamp=datetime.utcnow())
+        new_message = Message(content=message_content, user_id=user_id, sender_type=sender_type, volunteer_id=volunteer_id, chatroom_id=chat_room_id, timestamp=datetime.utcnow())
         db.session.add(new_message)
         db.session.commit()
 
         print(new_message)
         new_message_id = new_message.id
         # Emit the message to the specific chat room
-        emit('new_message', {'id': new_message_id, 'content': message_content}, room=data['chat_room_id'])
+        emit('new_message', {'id': new_message_id, 'content': message_content, "sender_type": sender_type}, room=data['chat_room_id'])
         print(message_content)
 
 @socketio.on('join_room')

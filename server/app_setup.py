@@ -23,7 +23,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['JWT_SECRET_KEY'] = os.environ.get("JWT_SECRET_KEY")
 app.config['JWT_TOKEN_LOCATION'] = ["headers", "cookies", "json"]
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=6)
 # app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(minutes=30)
 # app.config['JWT_COOKIE_CSRF_PROTECT'] = True
 app.secret_key = os.environ.get("APP_SECRET")
