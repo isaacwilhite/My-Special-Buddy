@@ -71,7 +71,7 @@ class CreateUser(Resource):
                 location=new_data.get('location'),
                 favorite_activities=new_data.get('favorite_activities')
             )
-            new_user.set_password(new_data.get('password'))
+            new_user.password_hash = new_data.get('password')
             db.session.add(new_user)
             db.session.commit()
 
@@ -81,6 +81,7 @@ class CreateUser(Resource):
         except Exception as e:
             db.session.rollback()
             return make_response({'Error': f'Could not create new user: {str(e)}'}, 400)
+
 
 class LoginUser(Resource):
     def post(self):
@@ -233,6 +234,7 @@ class LoginVolunteer(Resource):
             jwt = create_access_token(identity=selected.id)
             serialized_volunteer = {
                 'id': selected.id,
+                'name': selected.id,
                 'email': selected.email,
                 'bio': selected.bio,
                 'location': selected.location
@@ -247,24 +249,25 @@ class CreateVolunteer(Resource):
         try:
             new_data = request.get_json()
             new_volunteer = Volunteer(
-                email=new_data['email'],
-                password='',
-                location='',
-                bio='',
+                email=new_data.get('email'),
+                name=new_data.get('name'),
+                bio=new_data.get('bio'),
+                location=new_data.get('location')
             )
 
-            new_volunteer.password_hash = new_data['password']
+            new_volunteer.password_hash = new_data.get('password')
             db.session.add(new_volunteer)
             db.session.commit()
 
-            # session[VOLUNTEER_SESSION_KEY] = new_volunteer.id
-            # return make_response(new_volunteer.to_dict(rules=('-_password_hash',)), 201)
             jwt = create_access_token(identity=new_volunteer.id)
-            serialized_user = new_volunteer.to_dict(rules=('-_password_hash',))
-            return {"token": jwt, "user": serialized_user}, 201
+            serialized_volunteer = new_volunteer.to_dict(rules=('-_password_hash',))
+            return {"token": jwt, "volunteer": serialized_volunteer}, 201
+
         except Exception as e:
             db.session.rollback()
-            return make_response({'Error': f'Could not create new volunteer. {str(e)}'}, 400)
+            return make_response({'Error': f'Could not create new volunteer: {str(e)}'}, 400)
+
+
 
 class LogoutVolunteer(Resource):
     def get(self):
