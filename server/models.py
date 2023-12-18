@@ -20,7 +20,8 @@ class User(db.Model, SerializerMixin):
     favorite_activities = db.Column(db.String, nullable=True)
     child_name = db.Column(db.String)
     created_at = db.Column(db.DateTime, server_default=func.now())
-    messages = db.relationship('Message', back_populates='user', lazy=True)
+    messages = db.relationship('Message', back_populates='user', lazy=True, cascade='all, delete-orphan')
+    chatrooms = db.relationship('ChatRoom', back_populates='user', lazy=True, cascade='all, delete-orphan')
 
     serialize_rules = ("-messages.user",)
 
@@ -36,6 +37,7 @@ class User(db.Model, SerializerMixin):
     def authenticate(self, password):
         return bcrypt.check_password_hash(self._password_hash, password)
     
+    
 
 class Volunteer(db.Model, SerializerMixin):
     __tablename__ = 'volunteers'
@@ -47,7 +49,8 @@ class Volunteer(db.Model, SerializerMixin):
     bio = db.Column(db.String)
     location = db.Column(db.String)
     created_at = db.Column(db.DateTime, server_default=func.now())
-    messages = db.relationship('Message', back_populates='volunteer', lazy=True)
+    messages = db.relationship('Message', back_populates='volunteer', lazy=True, cascade='all, delete-orphan')
+    chatrooms = db.relationship('ChatRoom', back_populates='volunteer', lazy=True, cascade='all, delete-orphan')
 
     serialize_rules = ("-messages.volunteer",)
     def to_dict(self):
@@ -78,8 +81,9 @@ class ChatRoom(db.Model, SerializerMixin):
     volunteer_id = db.Column(db.Integer, db.ForeignKey('volunteers.id'), nullable=False)
     messages = db.relationship('Message', backref='chatroom', lazy=True)
 
-    user = db.relationship("User", backref="chatrooms")
-    volunteer = db.relationship("Volunteer", backref="chatrooms")
+    user = db.relationship("User", backref="chatroom")
+    volunteer = db.relationship("Volunteer", backref="chatroom")
+    messages = db.relationship('Message', cascade='all, delete-orphan', backref='chatroom')
     def to_dict(self):
         if self.user_id == user_id:  # If the logged-in user is the user of the chat room
             other_party_name = self.volunteer.name

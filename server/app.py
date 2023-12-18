@@ -63,6 +63,11 @@ class CreateUser(Resource):
     def post(self):
         try:
             new_data = request.get_json()
+            existing_user = User.query.filter_by(email=new_data.get('email')).first()
+
+            if existing_user:
+                # Email already exists, return an error response
+                return {'Error': 'Email already in use'}, 400
             new_user = User(
                 email=new_data.get('email'),
                 name=new_data.get('name'),
@@ -143,36 +148,56 @@ class UsersById(Resource):
         except Exception:
             return make_response({"Error": "User does not exist."}, 404)
 
-    def patch(self, id):
-        selected = db.session.get(User, id)
+    @jwt_required()
+    def patch(self):
+        try:
+            # Get user ID from the JWT token
+            user_id = get_jwt_identity()
 
-        if selected:
-            try:
-                new_data = request.get_json()
-                for k in new_data:
-                    setattr(selected, k, new_data[k])
-                db.session.add(selected)
-                db.session.commit()
-                return make_response(selected.to_dict(rules=('-password',)), 202)
-            except Exception as e:
-                db.session.rollback()
-                return make_response({'Error': f'Unable to update user. {str(e)}'}, 400)
+            # Find the user in the database
+            user = User.query.get(user_id)
+            if not user:
+                return {'Error': 'User not found'}, 404
 
-        return make_response({"Error": "User does not exist."}, 404)
+            # Get the updated data from the request
+            data = request.get_json()
+            user.name = data.get('name', user.name)
+            user.child_name = data.get('child_name', user.child_name)
+            user.bio = data.get('bio', user.bio)
+            user.location = data.get('location', user.location)
+            user.favorite_activities = data.get('favorite_activities', user.favorite_activities)
 
-    def delete(self, id):
-        selected = db.session.get(User, id)
+            # Commit the changes to the database
+            db.session.commit()
 
-        if selected:
-            try:
-                db.session.delete(selected)
-                db.session.commit()
-                return make_response({}, 204)
-            except Exception as e:
-                db.session.rollback()
-                return make_response({'Error': f'Unable to delete user. {str(e)}'}, 400)
+            # Return the updated user data
+            return {
+                'id': user.id,
+                'name': user.name,
+                'child_name': user.child_name,
+                'bio': user.bio,
+                'location': user.location,
+                'favorite_activities': user.favorite_activities
+            }, 200
 
-        return make_response({"Error": "User does not exist."}, 404)
+        except Exception as e:
+            db.session.rollback()
+            return {'Error': f'Could not update user: {str(e)}'}, 400
+        
+    @jwt_required()
+    def delete(self):
+        user_id = get_jwt_identity()
+        user = User.query.get(user_id)
+        if not user:
+            return {'Error': 'User not found'}, 404
+
+        ChatRoom.query.filter((ChatRoom.user_id == user.id) | (ChatRoom.volunteer_id == user.id)).delete()
+        Message.query.filter((Message.user_id == user.id) | (Message.volunteer_id == user.id)).delete()
+
+        # Delete the user
+        db.session.delete(user)
+        db.session.commit()
+        return {'Message': 'User and associated chat rooms deleted successfully'}, 200
     
 class Volunteers(Resource):
     @jwt_required()
@@ -215,6 +240,48 @@ class VolunteersById(Resource):
             return make_response(selected_volunteer.to_dict(rules=('-_password_hash',)), 200)
         except Exception:
             return make_response({"Error": "Volunteer does not exist."}, 404)
+        
+    @jwt_required()
+    def patch(self):
+        try:
+            # Get user ID from the JWT token
+            volunteer_id = get_jwt_identity()
+
+            # Find the user in the database
+            volunteer = Volunteer.query.get(volunteer_id)
+            if not volunteer:
+                return {'Error': 'volunteer not found'}, 404
+
+            # Get the updated data from the request
+            data = request.get_json()
+            volunteer.name = data.get('name', volunteer.name)
+            volunteer.bio = data.get('bio', volunteer.bio)
+            volunteer.location = data.get('location', volunteer.location)
+
+            # Commit the changes to the database
+            db.session.commit()
+
+            # Return the updated volunteer data
+            return volunteer.to_dict(), 200
+
+        except Exception as e:
+            db.session.rollback()
+            return {'Error': f'Could not update volunteer: {str(e)}'}, 400
+        
+    @jwt_required()
+    def delete(self):
+        volunteer_id = get_jwt_identity()
+        volunteer = Volunteer.query.get(volunteer_id)
+        if not volunteer:
+            return {'Error': 'Volunteer not found'}, 404
+
+        ChatRoom.query.filter((ChatRoom.volunteer_id == volunteer.id) | (ChatRoom.user_id == volunteer.id)).delete()
+        Message.query.filter((Message.volunteer_id == volunteer.id) | (Message.user_id == volunteer.id)).delete()
+
+        # Delete the user
+        db.session.delete(volunteer)
+        db.session.commit()
+        return {'Message': 'Volunteer and associated chat rooms deleted successfully'}, 200
 
 class LoginVolunteer(Resource):
     def post(self):
@@ -234,7 +301,7 @@ class LoginVolunteer(Resource):
             jwt = create_access_token(identity=selected.id)
             serialized_volunteer = {
                 'id': selected.id,
-                'name': selected.id,
+                'name': selected.name,
                 'email': selected.email,
                 'bio': selected.bio,
                 'location': selected.location
@@ -347,19 +414,28 @@ class MessagesByChatRoomId(Resource):
         ]
         return messages_data
     
+class CheckEmail(Resource):
+    def get(self):
+        email = request.args.get('email')
+        user = User.query.filter_by(email=email).first()
+        if user:
+            return {}, 400  # Bad request if email exists
+        return {}, 200  # OK if email does not exist
+
+api.add_resource(CheckEmail, '/api/check-email')
 api.add_resource(MessagesByChatRoomId, '/chat_rooms/<int:chat_room_id>/messages')
 api.add_resource(CreateChatRoom, '/create_chat_room')
 api.add_resource(LoginUser, '/login/user')
 api.add_resource(CreateUser, '/signup/user')
 api.add_resource(Users, '/users')
-api.add_resource(UsersById, '/users/<int:id>')
 api.add_resource(LoginVolunteer, '/login/volunteer')
 api.add_resource(CreateVolunteer, '/signup/volunteer')
 api.add_resource(LogoutVolunteer, '/logout/volunteer')
 api.add_resource(Volunteers, '/volunteers')
-api.add_resource(VolunteersById, '/volunteers/<int:id>')
+api.add_resource(VolunteersById, '/volunteer')
 api.add_resource(ChatRoomsByUserId, '/user_rooms')
 api.add_resource(ChatRoomsByVolunteerId, '/volunteer_rooms')
+api.add_resource(UsersById, '/user')
 
 @app.route('/')
 def index():
