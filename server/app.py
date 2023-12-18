@@ -315,6 +315,11 @@ class CreateVolunteer(Resource):
     def post(self):
         try:
             new_data = request.get_json()
+            existing_volunteer = Volunteer.query.filter_by(email=new_data.get('email')).first()
+
+            if existing_volunteer:
+                # Email already exists, return an error response
+                return {'Error': 'Email already in use'}, 400
             new_volunteer = Volunteer(
                 email=new_data.get('email'),
                 name=new_data.get('name'),
