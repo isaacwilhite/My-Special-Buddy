@@ -16,13 +16,14 @@ if __name__ == '__main__':
 
     def create_users():
         users = []
-        for n in range(20):
+        for n in range(50):
             new_user = User(
                 name = fake.first_name(),
                 email = fake.email(),
-                location = fake.zipcode(),
+                location = fake.state(),
                 bio = fake.sentence(),
-                favorite_activities = fake.sentence()
+                favorite_activities = fake.sentence(),
+                child_name = fake.first_name()
             )
             new_user.password_hash = 'password'
             users.append(new_user)
@@ -33,11 +34,11 @@ if __name__ == '__main__':
 
     def create_volunteers():
         volunteers = []
-        for n in range(20):
+        for n in range(50):
             new_volunteer = Volunteer(
                 name = fake.first_name(),
                 email = fake.email(),
-                location = fake.zipcode(),
+                location = fake.state(),
                 _password_hash = "password",
                 bio = fake.sentence()
             )
