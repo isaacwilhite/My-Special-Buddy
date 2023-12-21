@@ -59,11 +59,11 @@ const handleBackToHome = () => {
 };
 
   return (
-    <div>
+    <div className="chat-rooms-container">
       <h2>Chat Rooms</h2>
-      <button onClick={handleBackToHome}>Back to Home</button>
+      <button onClick={handleBackToHome} className="back-home-button">Back to Home</button>
       {chatRooms.map((room) => (
-        <div key={room.id} onClick={() => handleChatRoomSelect(room.id, room.user_id)} style={{ cursor: 'pointer' }}>
+        <div key={room.id} onClick={() => handleChatRoomSelect(room.id, room.user_id)} className="chat-room-entry">
           Chat with {room.user_name}
         </div>
       ))}
