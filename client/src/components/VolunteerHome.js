@@ -5,12 +5,6 @@ import MyVolunteerNavbar from './home_styling/MyVolunteerNavbar';
 const VolunteerHome = () => {
   const navigate = useNavigate();
   const { chatUser, clearChatUser } = useChatContext()
-  const handleChatComponentClick = () => {
-    navigate('/chats');
-  };
-  const handleProfileEditClick = () => {
-    navigate('/volunteer_edit_profile');
-  };
 
   const handleLogout = () => {
     // Remove the JWT token (or other authentication token) from local storage

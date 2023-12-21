@@ -30,6 +30,67 @@ code {
   margin-right: 50%;
 }
 
+.chat-room-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.chat-room-container h3 {
+  color: #4A90E2; /* Adjust the color as per your theme */
+  margin-bottom: 20px;
+}
+
+.messages-container {
+  background-color: #f0f0f0; /* Light background for the message area */
+  padding: 15px;
+  border-radius: 8px;
+  height: 300px; /* Adjust as needed */
+  overflow-y: auto; /* Allow scrolling */
+  margin-bottom: 20px;
+}
+
+.message {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.sent {
+  background-color: #daf1da; /* Light green for sent messages */
+  text-align: right;
+}
+
+.received {
+  background-color: #f1f0da; /* Light yellow for received messages */
+  text-align: left;
+}
+
+.chat-input {
+  width: 70%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin-right: 10px; /* Space between input and button */
+}
+
+.send-button {
+  background-color: #4A90E2;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.send-button:hover {
+  background-color: #357ABD;
+}
+
+
+
+
 .navbar {
   position: relative;
 }
@@ -300,5 +361,15 @@ code {
 @media (max-width: 768px) {
   .chat-rooms-container {
       padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .chat-room-container {
+      padding: 10px;
+  }
+
+  .chat-input {
+      width: 60%;
   }
 }
