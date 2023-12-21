@@ -112,7 +112,7 @@ const UserProfileEdit = () => {
   };
 
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <form onSubmit={formik.handleSubmit} className="profile-form">
       <input
         id="name"
         name="name"
@@ -148,9 +148,9 @@ const UserProfileEdit = () => {
         onChange={formik.handleChange}
         value={formik.values.favorite_activities}
       />
-      <button type="submit">Update Profile</button>
-      <button type="button" onClick={handleDeleteAccount}>Delete Account</button>
-      <button onClick={handleBackToHome}>Back to Home</button>
+      <button type="submit" className="update-button">Update Profile</button>
+      <button type="button" onClick={handleDeleteAccount} className="delete-button">Delete Account</button>
+      <button onClick={handleBackToHome} className="back-button">Back to Home</button>
       <CustomSnackbar 
         open={isSnackbarOpen} 
         handleClose={handleCloseSnackbar} 

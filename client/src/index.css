@@ -373,3 +373,60 @@ code {
       width: 60%;
   }
 }
+
+.profile-form {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.profile-form input,
+.profile-form button {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.profile-form input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.profile-form input:focus {
+  border-color: #4A90E2;
+  box-shadow: 0 0 8px rgba(74, 144, 226, 0.5);
+}
+
+.profile-form button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.update-button {
+  background-color: #4A90E2;
+  color: white;
+}
+
+.delete-button {
+  background-color: #E25B5B; /* Red color for delete */
+  color: white;
+}
+
+.back-button {
+  background-color: #CCC; /* Neutral color for back */
+  color: black;
+}
+
+.profile-form button:hover {
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .profile-form {
+      padding: 10px;
+  }
+}
