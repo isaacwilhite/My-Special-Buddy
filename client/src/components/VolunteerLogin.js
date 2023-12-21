@@ -57,8 +57,8 @@ const handleError = (message) => {
     setSnackbarOpen(false);
   };
   return (
-    <div className='modal'>
-      <form onSubmit={formik.handleSubmit} id='formikLogin'>
+    <div className="login-form-container">
+      <form onSubmit={formik.handleSubmit} id='formikLogin' className="login-form">
         <h1 className='modaltitle'>Login</h1>
         <h3 className='modaltag'>Please enter your email and password.</h3>
         <input id='email' className='loginInput' type='text' onChange={formik.handleChange} value={formik.values.email} placeholder="Enter Email"></input>

@@ -104,7 +104,10 @@ const UserSignup = () => {
       setSnackbarOpen(false);
     };
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <div className="signup-form-container">
+    <form onSubmit={formik.handleSubmit} className="signup-form">
+    <h1 className='modaltitle'>Sign Up</h1>
+        <h3 className='modaltag'>Please enter the following.</h3>
       <input
         id="email"
         name="email"
@@ -162,6 +165,7 @@ const UserSignup = () => {
         placeholder="Enter Favorite Activities"
       />
       <button type="submit" disabled={formik.isSubmitting}>Sign Up</button>
+      <button className='modalbutton' onClick={() => navigate('/')}>Cancel</button>
       <CustomSnackbar 
         open={isSnackbarOpen} 
         handleClose={handleCloseSnackbar} 
@@ -169,6 +173,7 @@ const UserSignup = () => {
         severity={snackbarSeverity} 
       />
     </form>
+    </div>
   );
 };
 

@@ -5,7 +5,7 @@ import logo from './images/long_ways_logo_transparent.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 
-const MyNavbar = () => {
+const MyVolunteerNavbar = () => {
     const navigate = useNavigate()
     const [show, setShow] = useState(false);
 
@@ -29,11 +29,8 @@ const MyNavbar = () => {
         </Offcanvas.Header>
         <Offcanvas.Body>
     <div className="d-flex flex-column">
-    <Button variant="outline-success" onClick={() => navigate('/user_login')} className="mb-2">User Login</Button>
-        <Button variant="outline-success" onClick={() => navigate('/user_signup')} className="mb-2">User Sign Up</Button>
-        <Button variant="outline-success" onClick={() => navigate('/volunteer_login')} className="mb-2">I am a Buddy</Button>
-        <Button variant="outline-success" onClick={() => navigate('/volunteer_signup')} className="mb-2">I want to be a Buddy!</Button>
-        <Button variant="outline-success"className="mb-2">Get Pricing</Button>
+    <Button variant="outline-success" onClick={() => navigate('/chats')} className="mb-2">Messages</Button>
+        <Button variant="outline-success" onClick={() => navigate('/volunteer_edit_profile')} className="mb-2">Edit Profile</Button>
     </div>
 </Offcanvas.Body>
     </Offcanvas>
@@ -41,4 +38,4 @@ const MyNavbar = () => {
     );
 };
 
-export default MyNavbar;
+export default MyVolunteerNavbar;

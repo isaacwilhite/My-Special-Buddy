@@ -73,14 +73,14 @@ const MeetVolunteers = () => {
     };
   
     return (
-      <div>
-        <button onClick={handleBackToHome}>Back to Home</button> {/* Back to Home button */}
+      <div className="volunteer-container">
+        <button onClick={handleBackToHome} className="back-home-button">Back to Home</button> {/* Back to Home button */}
         {volunteers.map((volunteer) => (
           <div key={volunteer.id} className="volunteer-profile">
             <h3>{volunteer.name}</h3>
             <p>Bio: {volunteer.bio}</p>
             <p>Location: {volunteer.location}</p>
-            <button onClick={() => onCreateChatRoom(volunteer.id)}>Message</button>
+            <button onClick={() => onCreateChatRoom(volunteer.id)} className="message-button">Message</button>
             <CustomSnackbar 
         open={isSnackbarOpen} 
         handleClose={handleCloseSnackbar} 
