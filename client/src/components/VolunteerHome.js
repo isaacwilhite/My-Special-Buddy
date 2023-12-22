@@ -2,6 +2,8 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useChatContext } from './ChatContext'
 import MyVolunteerNavbar from './home_styling/MyVolunteerNavbar';
+import Footer from './home_styling/Footer';
+
 const VolunteerHome = () => {
   const navigate = useNavigate();
   const { chatUser, clearChatUser } = useChatContext()
@@ -28,6 +30,7 @@ const VolunteerHome = () => {
       </div>
       <button onClick={handleLogout}>Logout</button>
     </div>
+    <Footer />
     </>
   )
 }

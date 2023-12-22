@@ -16,7 +16,7 @@ const Gallery = () => {
     ]
     return (
         <>
-        <h1 style={{ color: '#0D98BA', fontSize: '32px', textAlign: 'center', marginBottom: '20px', marginTop: '20px' }}>
+        <h1 style={{ color: '#4A90E2', fontSize: '32px', textAlign: 'center', marginBottom: '20px', marginTop: '20px' }}>
         Our Buddies And Their Best Friends
         </h1>
         <Carousel>

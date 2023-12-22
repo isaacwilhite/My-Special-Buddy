@@ -430,3 +430,89 @@ code {
       padding: 10px;
   }
 }
+
+.about-text {
+  font-size: 16px; /* Adjust the font size as needed */
+  line-height: 1.6; /* Improves readability */
+  /* Additional styling as needed */
+}
+
+.about-image1 {
+  width: 100%; /* Adjust width as necessary */
+  height: 400px; /* Adjust height to control the cropping */
+  background-image: url('/src/components/home_styling/images/IMG_1935.jpg');
+  background-size: cover; /* Cover ensures the image covers the entire container */
+  background-position: center; /* Adjust the position as needed to crop top and bottom */
+  border-radius: 8px; /* Optional: Adds rounded corners */
+}
+.about-image2 {
+  width: 100%; /* Adjust width as necessary */
+  height: 400px; /* Adjust height to control the cropping */
+  background-image: url('/src/components/home_styling/images/3.png');
+  background-size: cover; /* Cover ensures the image covers the entire container */
+  background-position: center; /* Adjust the position as needed to crop top and bottom */
+  border-radius: 8px; /* Optional: Adds rounded corners */
+}
+.about-image3 {
+  width: 100%; /* Adjust width as necessary */
+  height: 400px; /* Adjust height to control the cropping */
+  background-image: url('/src/components/home_styling/images/IMG_2238.jpg');
+  background-size: cover; /* Cover ensures the image covers the entire container */
+  background-position: center; /* Adjust the position as needed to crop top and bottom */
+  border-radius: 8px; /* Optional: Adds rounded corners */
+}
+
+@media (max-width: 768px) {
+  .about-text, .about-image {
+      text-align: center;
+  }
+
+  .about-image img {
+      display: block; /* Ensures the image is a block-level element */
+      margin: auto; /* Centers the image horizontally */
+  }
+}
+
+.icon-link {
+  margin: 0 10px;
+  color: #000; /* Icon color */
+  font-size: 50px; /* Icon size */
+}
+
+.icon-link:hover {
+  color: #4A90E2; /* Color on hover */
+}
+
+footer.bg-light {
+  height: 100px; /* Adjust this value to increase the height */
+  padding: 20px 0; /* Top and bottom padding */
+  /* Other styling as needed */
+}
+
+footer.bg-light {
+  display: flex;
+  align-items: center; /* This will vertically center the content */
+  justify-content: center; /* Horizontally centers content if needed */
+  /* Other properties as above */
+}
+
+.icon-link {
+  font-size: 30px; /* Increase the size of the icons */
+  margin: 0 15px; /* Adjust spacing as needed */
+}
+
+/* If you have text, you can adjust its size as well */
+footer.bg-light p, footer.bg-light a {
+  font-size: 50px; /* Adjust text size */
+}
+
+@media (max-width: 768px) {
+  footer.bg-light {
+      height: 80px; /* Smaller height for mobile devices */
+      padding: 15px 0;
+  }
+
+  .icon-link {
+      font-size: 24px; /* Smaller icon size for mobile */
+  }
+}

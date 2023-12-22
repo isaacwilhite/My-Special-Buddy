@@ -2,6 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useChatContext } from './ChatContext'
 import MyUserNavbar from './home_styling/MyUserNavbar';
+import Footer from './home_styling/Footer';
 
 const UserHome = () => {
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ const UserHome = () => {
       </div>
       <button onClick={handleLogout}>Logout</button>
     </div>
+    <Footer />
     </>
   );
 };
