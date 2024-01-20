@@ -113,9 +113,9 @@ const handleBackToHome = () => {
   navigate('/user_home');
 };
   return (
-    <div>
+    <div className="chat-room-container">
       <h3>Chat Room</h3>
-      <button onClick={handleBackToHome}>Back to Home</button>
+      <button onClick={handleBackToHome} className="back-home-button">Back to Home</button>
       <div className="messages-container">
           {messages.map(renderMessage)}
       </div>
@@ -123,8 +123,9 @@ const handleBackToHome = () => {
         type="text"
         value={messageInput}
         onChange={(e) => setMessageInput(e.target.value)}
+        className="chat-input"
       />
-      <button onClick={sendMessage}>Send</button>
+      <button onClick={sendMessage} className="send-button">Send</button>
       <CustomSnackbar 
         open={isSnackbarOpen} 
         handleClose={handleCloseSnackbar} 

@@ -29,3 +29,502 @@ code {
   text-align: left;
   margin-right: 50%;
 }
+
+.chat-room-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.chat-room-container h3 {
+  color: #4A90E2; /* Adjust the color as per your theme */
+  margin-bottom: 20px;
+}
+
+.messages-container {
+  background-color: #f0f0f0; /* Light background for the message area */
+  padding: 15px;
+  border-radius: 8px;
+  height: 300px; /* Adjust as needed */
+  overflow-y: auto; /* Allow scrolling */
+  margin-bottom: 20px;
+}
+
+.message {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.sent {
+  background-color: #daf1da; /* Light green for sent messages */
+  text-align: right;
+}
+
+.received {
+  background-color: #f1f0da; /* Light yellow for received messages */
+  text-align: left;
+}
+
+.chat-input {
+  width: 70%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin-right: 10px; /* Space between input and button */
+}
+
+.send-button {
+  background-color: #4A90E2;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.send-button:hover {
+  background-color: #357ABD;
+}
+
+
+
+
+.navbar {
+  position: relative;
+}
+
+.my-navbar .navbar-brand {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.carousel-img {
+  max-width: 100%; /* Ensures image is not wider than its container */
+  max-height: 600px; /* Adjust this value as needed */
+  margin: auto; /* Centers the image if it's smaller than container width */
+}
+
+.login-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full height of the viewport */
+  padding: 20px;
+}
+
+.login-form {
+  max-width: 400px; /* Set a max-width for the form */
+  width: 100%; /* Make it responsive */
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: Add a shadow for depth */
+  border-radius: 8px; /* Optional: Rounded corners */
+  background: white; /* Background color */
+}
+
+.loginInput {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.loginInput:focus {
+  border-color: #4A90E2; /* Change border color on focus */
+  box-shadow: 0 0 8px rgba(74, 144, 226, 0.5); /* Optional: Add a shadow on focus */
+}
+
+.modalbutton {
+  background-color: #4A90E2; /* Button color */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.modalbutton:hover {
+  background-color: #357ABD; /* Darker shade for hover effect */
+}
+
+.signup-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  padding: 20px;
+}
+
+.signup-form {
+  max-width: 400px; /* Adjust as needed */
+  width: 100%;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  background: white;
+}
+
+.signup-form input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.signup-form input:focus {
+  border-color: #4A90E2;
+  box-shadow: 0 0 8px rgba(74, 144, 226, 0.5);
+}
+
+.signup-form button {
+  background-color: #4A90E2;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.signup-form button:hover {
+  background-color: #357ABD;
+}
+
+.user-home {
+  max-width: 800px; /* Adjust as needed */
+  margin: auto;
+  padding: 20px;
+  text-align: center; /* Center the text */
+}
+
+.user-home h1 {
+  color: #4A90E2; /* A pleasing color for the welcome message */
+  margin-bottom: 20px;
+}
+
+.user-home h2 {
+  color: #333; /* Darker color for subheadings */
+  margin-bottom: 15px;
+}
+
+.user-home p {
+  color: #555; /* Slightly lighter color for the text */
+  line-height: 1.6; /* Better readability */
+}
+
+.user-home button {
+  background-color: #4A90E2;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.user-home button:hover {
+  background-color: #357ABD;
+}
+
+.user-home div {
+  background-color: #f8f8f8; /* Light background for the profile details */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.user-home p strong {
+  color: #333; /* Make labels stand out */
+}
+
+@media (max-width: 768px) {
+  .user-home {
+      padding: 10px;
+  }
+
+  .user-home button {
+      width: 100%; /* Full width button on smaller screens */
+  }
+}
+
+.volunteer-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.back-home-button {
+  background-color: #4A90E2;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.back-home-button:hover {
+  background-color: #357ABD;
+}
+
+.volunteer-profile {
+  background-color: #f8f8f8;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.volunteer-profile h3 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.volunteer-profile p {
+  color: #555;
+  line-height: 1.6;
+}
+
+.message-button {
+  background-color: #4A90E2;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.message-button:hover {
+  background-color: #357ABD;
+}
+
+@media (max-width: 768px) {
+  .volunteer-container {
+      padding: 10px;
+  }
+
+  .message-button {
+      width: 100%;
+  }
+}
+
+.chat-rooms-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.chat-rooms-container h2 {
+  color: #4A90E2; /* Adjust the color as per your theme */
+  margin-bottom: 20px;
+}
+
+.back-home-button {
+  background-color: #4A90E2;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.back-home-button:hover {
+  background-color: #357ABD;
+}
+
+.chat-room-entry {
+  background-color: #f8f8f8;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.chat-room-entry:hover {
+  background-color: #e0e0e0; /* Slightly darker on hover for feedback */
+}
+
+@media (max-width: 768px) {
+  .chat-rooms-container {
+      padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .chat-room-container {
+      padding: 10px;
+  }
+
+  .chat-input {
+      width: 60%;
+  }
+}
+
+.profile-form {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.profile-form input,
+.profile-form button {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.profile-form input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.profile-form input:focus {
+  border-color: #4A90E2;
+  box-shadow: 0 0 8px rgba(74, 144, 226, 0.5);
+}
+
+.profile-form button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.update-button {
+  background-color: #4A90E2;
+  color: white;
+}
+
+.delete-button {
+  background-color: #E25B5B; /* Red color for delete */
+  color: white;
+}
+
+.back-button {
+  background-color: #CCC; /* Neutral color for back */
+  color: black;
+}
+
+.profile-form button:hover {
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .profile-form {
+      padding: 10px;
+  }
+}
+
+.about-text {
+  font-size: 16px; /* Adjust the font size as needed */
+  line-height: 1.6; /* Improves readability */
+  /* Additional styling as needed */
+}
+
+.about-image1 {
+  width: 100%; /* Adjust width as necessary */
+  height: 400px; /* Adjust height to control the cropping */
+  background-image: url('/src/components/home_styling/images/IMG_1935.jpg');
+  background-size: cover; /* Cover ensures the image covers the entire container */
+  background-position: center; /* Adjust the position as needed to crop top and bottom */
+  border-radius: 8px; /* Optional: Adds rounded corners */
+}
+.about-image2 {
+  width: 100%; /* Adjust width as necessary */
+  height: 400px; /* Adjust height to control the cropping */
+  background-image: url('/src/components/home_styling/images/3.png');
+  background-size: cover; /* Cover ensures the image covers the entire container */
+  background-position: center; /* Adjust the position as needed to crop top and bottom */
+  border-radius: 8px; /* Optional: Adds rounded corners */
+}
+.about-image3 {
+  width: 100%; /* Adjust width as necessary */
+  height: 400px; /* Adjust height to control the cropping */
+  background-image: url('/src/components/home_styling/images/IMG_2238.jpg');
+  background-size: cover; /* Cover ensures the image covers the entire container */
+  background-position: center; /* Adjust the position as needed to crop top and bottom */
+  border-radius: 8px; /* Optional: Adds rounded corners */
+}
+
+@media (max-width: 768px) {
+  .about-text, .about-image {
+      text-align: center;
+  }
+
+  .about-image img {
+      display: block; /* Ensures the image is a block-level element */
+      margin: auto; /* Centers the image horizontally */
+  }
+}
+
+.icon-link {
+  margin: 0 10px;
+  color: #000; /* Icon color */
+  font-size: 50px; /* Icon size */
+}
+
+.icon-link:hover {
+  color: #4A90E2; /* Color on hover */
+}
+
+footer.bg-light {
+  height: 100px; /* Adjust this value to increase the height */
+  padding: 20px 0; /* Top and bottom padding */
+  /* Other styling as needed */
+}
+
+footer.bg-light {
+  display: flex;
+  align-items: center; /* This will vertically center the content */
+  justify-content: center; /* Horizontally centers content if needed */
+  /* Other properties as above */
+}
+
+.icon-link {
+  font-size: 30px; /* Increase the size of the icons */
+  margin: 0 15px; /* Adjust spacing as needed */
+}
+
+/* If you have text, you can adjust its size as well */
+footer.bg-light p, footer.bg-light a {
+  font-size: 50px; /* Adjust text size */
+}
+
+@media (max-width: 768px) {
+  footer.bg-light {
+      height: 80px; /* Smaller height for mobile devices */
+      padding: 15px 0;
+  }
+
+  .icon-link {
+      font-size: 24px; /* Smaller icon size for mobile */
+  }
+}
+
+.volunteer-profile img {
+  max-width: 100%; /* Ensures the image is not wider than its container */
+  height: auto; /* Maintains the aspect ratio */
+  border-radius: 8px; /* Optional: Adds rounded corners */
+  /* Optional: Add a box-shadow or border for more definition */
+}
+@media (max-width: 768px) {
+  .volunteer-profile img {
+      height: 150px; /* Smaller height for mobile devices */
+  }
+}

@@ -1,23 +1,14 @@
 // import { useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useChatContext } from './ChatContext'
+import MyUserNavbar from './home_styling/MyUserNavbar';
+import Footer from './home_styling/Footer';
 
 const UserHome = () => {
   const navigate = useNavigate();
   const { chatUser, setChatUser } = useChatContext()
   console.log(chatUser)
 
-  const handleMeetVolunteersClick = () => {
-    navigate('/meet_volunteers');
-  };
-
-  const handleChatComponentClick = () => {
-    navigate('/chats');
-  };
-
-  const handleEditProfileClick = () => {
-    navigate('/user_edit_profile');
-  };
 
   const handleLogout = () => {
     // Remove the JWT token (or other authentication token) from local storage
@@ -29,6 +20,8 @@ const UserHome = () => {
   };
 
   return (
+    <>
+      <MyUserNavbar />
     <div className="user-home">
       <h1>Welcome, {chatUser.userName}</h1>
       <div>
@@ -38,11 +31,10 @@ const UserHome = () => {
         <p><strong>Favorite Activities:</strong> {chatUser.activities}</p>
         <p><strong>Location:</strong> {chatUser.userLocation}</p>
       </div>
-      <button onClick={handleMeetVolunteersClick}>Meet Buddies</button>
-      <button onClick={handleChatComponentClick}>Messages</button>
-      <button onClick={handleEditProfileClick}>Edit Profile</button>
       <button onClick={handleLogout}>Logout</button>
     </div>
+    <Footer />
+    </>
   );
 };
 

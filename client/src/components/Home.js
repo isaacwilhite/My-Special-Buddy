@@ -1,17 +1,18 @@
-import { useNavigate } from 'react-router-dom';
+
+import MyNavbar from './home_styling/MyNavbar';
+import Gallery from './home_styling/Gallery';
+import PictureWithText from './home_styling/PictureWithText'
+import AboutSection from './home_styling/AboutSection';
+import Footer from './home_styling/Footer';
 
 const Home = () => {
-  const navigate = useNavigate()
   return (
-    <div className='modal'>
-      <h1 className='modalhome'>Welcome to My Special Buddy!</h1>
-      <h3 className='modaltag'>Please select an option:</h3>
-      <div id='loginButtons'>
-        <button className='modalbutton' onClick={() => navigate('/user_login')}>User Login</button>
-        <button className='modalbutton' onClick={() => navigate('/user_signup')}>User Sign Up</button>
-        <button className='modalbutton' onClick={() => navigate('/volunteer_login')}>Buddy Login</button>
-        <button className='modalbutton' onClick={() => navigate('/volunteer_signup')}>I want to be a Buddy!</button>
-      </div>
+    <div>
+      <MyNavbar />
+      <PictureWithText />
+      <Gallery />
+      <AboutSection />
+      <Footer />
     </div>
   )
 }

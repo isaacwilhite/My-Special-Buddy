@@ -1,0 +1,18 @@
+.picture-with-text {
+    position: relative;
+    text-align: center; /* Center text horizontally */
+}
+
+.background-image {
+    width: 100%; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.overlay-text {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust for perfect centering */
+    color: white; /* Choose text color that contrasts well with your image */
+    /* Additional styling for your text */
+}
