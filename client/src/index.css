@@ -516,3 +516,15 @@ footer.bg-light p, footer.bg-light a {
       font-size: 24px; /* Smaller icon size for mobile */
   }
 }
+
+.volunteer-profile img {
+  max-width: 100%; /* Ensures the image is not wider than its container */
+  height: auto; /* Maintains the aspect ratio */
+  border-radius: 8px; /* Optional: Adds rounded corners */
+  /* Optional: Add a box-shadow or border for more definition */
+}
+@media (max-width: 768px) {
+  .volunteer-profile img {
+      height: 150px; /* Smaller height for mobile devices */
+  }
+}

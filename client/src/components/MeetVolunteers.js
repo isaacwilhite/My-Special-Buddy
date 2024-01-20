@@ -3,6 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import { useChatContext } from './ChatContext'
 import CustomSnackbar from './CustomSnackbar'
+import ashley from './home_styling/images/ashley.jpg'
+import autumn from './home_styling/images/autumn.jpg'
+import kai from './home_styling/images/Kai.jpg'
+import ellie from './home_styling/images/Ellie.jpg'
+import gavin from './home_styling/images/Gavin.jpg'
 
 const MeetVolunteers = () => {
     const [volunteers, setVolunteers] = useState([]);
@@ -71,12 +76,30 @@ const MeetVolunteers = () => {
     const handleCloseSnackbar = () => {
       setSnackbarOpen(false);
     };
+
+    const handlePictureSelect = (volunteerName) => {
+      switch (volunteerName) {
+          case "Ashley":
+              return ashley;
+          case "Autumn":
+              return autumn;
+          case "Kai":
+              return kai;
+          case "Ellie":
+              return ellie;
+          case "Gavin":
+              return gavin;
+          default:
+              return "defaultImagePath"; // Replace with a default image path if needed
+      }
+  };
   
     return (
       <div className="volunteer-container">
         <button onClick={handleBackToHome} className="back-home-button">Back to Home</button> {/* Back to Home button */}
         {volunteers.map((volunteer) => (
           <div key={volunteer.id} className="volunteer-profile">
+            <img src={handlePictureSelect(volunteer.name)} alt={volunteer.name} />
             <h3>{volunteer.name}</h3>
             <p>Bio: {volunteer.bio}</p>
             <p>Location: {volunteer.location}</p>
