@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useChatContext } from './ChatContext';
 import { useNavigate } from 'react-router-dom';
+import { useLoadScript, StandaloneSearchBox } from '@react-google-maps/api';
 import CustomSnackbar from './CustomSnackbar'
 
 const UserSignup = () => {
@@ -11,6 +12,18 @@ const UserSignup = () => {
   const [isSnackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('info')
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: "YOUR_API_KEY", // Replace with your API key
+    libraries: ["places"],
+  });
+  const searchBoxRef = useRef();
+
+  const onPlacesChanged = () => {
+    const places = searchBoxRef.current.getPlaces();
+    const place = places[0];
+    formik.setFieldValue("location", place.formatted_address); // Sets location field in form
+    // You can also extract and store latitude and longitude here
+  };
   const handleError = (message) => {
     setSnackbarMessage(message);
     setSnackbarSeverity('error');
@@ -148,14 +161,21 @@ const UserSignup = () => {
         value={formik.values.bio}
         placeholder="Enter Bio"
       />
-      <input
-        id="location"
-        name="location"
-        type="text"
-        onChange={formik.handleChange}
-        value={formik.values.location}
-        placeholder="Enter Location"
-      />
+      {isLoaded && (
+          <StandaloneSearchBox
+            ref={searchBoxRef}
+            onPlacesChanged={onPlacesChanged}
+          >
+            <input
+              id="location"
+              name="location"
+              type="text"
+              onChange={formik.handleChange}
+              value={formik.values.location}
+              placeholder="Enter Location"
+            />
+          </StandaloneSearchBox>
+        )}
       <input
         id="favorite_activities"
         name="favorite_activities"

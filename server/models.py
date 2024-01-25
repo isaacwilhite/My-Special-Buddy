@@ -17,6 +17,8 @@ class User(db.Model, SerializerMixin):
     _password_hash = db.Column(db.String)  # Renamed to avoid conflict
     bio = db.Column(db.String)
     location = db.Column(db.String)
+    latitude = db.Column(db.Float)
+    longitude = db.Column(db.Float)
     favorite_activities = db.Column(db.String, nullable=True)
     child_name = db.Column(db.String)
     created_at = db.Column(db.DateTime, server_default=func.now())
