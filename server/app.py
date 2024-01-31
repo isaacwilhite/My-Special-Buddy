@@ -73,6 +73,8 @@ class CreateUser(Resource):
                 name=new_data.get('name'),
                 child_name=new_data.get('child_name'),
                 bio=new_data.get('bio'),
+                latitude=new_data.get('latitude'),  # Adding latitude
+                longitude=new_data.get('longitude'),
                 location=new_data.get('location'),
                 favorite_activities=new_data.get('favorite_activities')
             )
